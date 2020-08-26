@@ -1,0 +1,13 @@
+{
+  "api_config": {
+    "method": "POST",
+    "content_type": "application/json",
+    "country_code": "in",
+    "city": "kolkata",
+    "city_id": 1277333,
+    "latitude": 12.972442,
+    "longitude": 77.580643,
+    "auth_type": "X-API-KEY",
+    "endpoint": "https://api.openweathermap.org/data/2.5/weather"
+  }
+}
