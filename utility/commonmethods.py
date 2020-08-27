@@ -6,7 +6,7 @@ class Commonmethods:
 
     # Get the JSON data
     def get_json_data(self):
-        with open("../config.json") as file:
+        with open("config.json") as file:
             data = json.load(file)
             return data
 
