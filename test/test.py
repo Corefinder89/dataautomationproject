@@ -11,7 +11,6 @@ class Testdata(unittest.TestCase):
         self.wut = Webutility()
 
     def test_data(self):
-        # data = self.aut.get_api_data("zip_code")
-        # print(data)
-        path = self.wut.get_web_data()
-        print(path)
+        data = self.aut.get_api_data("zip_code")
+        print(data)
+        self.wut.get_web_data()
