@@ -11,7 +11,8 @@ class Testdata(unittest.TestCase):
         self.wut = Webutility()
 
     def test_data(self):
+        # print("Hello")
         # data = self.aut.get_api_data("zip_code")
         # print(data)
-        data = self.wut.get_web_data()
+        data = self.wut.set_weather_data("bengaluru")
         print(data)
