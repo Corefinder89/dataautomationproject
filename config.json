@@ -1,9 +1,13 @@
 {
   "api_config": {
-    "method": "POST",
+    "method": "GET",
     "content_type": "application/json",
     "auth_type": "X-API-KEY",
     "endpoint": "https://api.openweathermap.org/data/2.5/weather"
+  },
+  "driver_config": {
+    "chromedriver_for_mac": "../drivers/chromedriver64_mac",
+    "chromedriver_for_linux": "../drivers/chromedriver64_linux"
   },
   "location_parameters": {
     "country_code": "in",
