@@ -4,18 +4,13 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
 
-from utility.commonmethods import Commonmethods
-from utility.logger import Logger
+from utility.apiutility import Apiutility
 
 
-class Webutility:
-    def __init__(self):
-        self.cm = Commonmethods()
-        self.log = Logger()
-
+class Webutility(Apiutility):
     def get_web_data(self):
         try:
-            driver_path = self.cm.set_driver_path()
+            driver_path = super().set_driver_path()
             chrome_options = Options()
             chrome_options.add_argument("--headless")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
@@ -27,7 +22,7 @@ class Webutility:
 
             return data
         except WebDriverException as e:
-            self.log.log_error(e)
+            super().log_error(e)
 
     def set_weather_data(self, city_name):
         json_data = self.get_web_data()

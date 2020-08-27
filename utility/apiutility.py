@@ -6,21 +6,18 @@ from utility.commonmethods import Commonmethods
 from utility.logger import Logger
 
 
-class Apiutility:
-    def __init__(self):
-        self.log = Logger()
-        self.cm = Commonmethods()
+class Apiutility(Logger, Commonmethods):
 
     # Get api key from the environment
     def get_apikey(self):
         try:
             return os.environ["apikey"]
         except KeyError:
-            self.log.log_error("Environment variable not present")
+            super().log_error("Environment variable not present")
 
     # Set query parameters for API
     def set_query_params(self, param_type):
-        json_obj = self.cm.get_json_data()
+        json_obj = super().get_json_data()
         params = {
             "country_code": json_obj.get("location_parameters").get("country_code"),
             "city": json_obj.get("location_parameters").get("city"),
@@ -48,7 +45,7 @@ class Apiutility:
 
     # Get the data from the API
     def get_api_data(self, param_type):
-        json_obj = self.cm.get_json_data()
+        json_obj = super().get_json_data()
 
         api_config = {
             "method": json_obj.get("api_config").get("method"),
@@ -67,15 +64,15 @@ class Apiutility:
         response_json = response.json()
 
         if response.status_code != 200:
-            self.log.log_error(response_json.get("message"))
+            super().log_error(response_json.get("message"))
         else:
             # Set the API data in dictionary
             api_data = {
                 "condition": response_json.get("weather")[0].get("description"),
                 "wind_speed": response_json.get("wind").get("speed"),
                 "humidity": response_json.get("main").get("humidity"),
-                "temperature_celsius": self.cm.convert_kelvin_celsius(response_json.get("main").get("temp")),
-                "temperature_fahrenheit": self.cm.convert_kelvin_fahrenheit(response_json.get("main").get("temp"))
+                "temperature_celsius": super().convert_kelvin_celsius(response_json.get("main").get("temp")),
+                "temperature_fahrenheit": super().convert_kelvin_fahrenheit(response_json.get("main").get("temp"))
             }
 
             return api_data
