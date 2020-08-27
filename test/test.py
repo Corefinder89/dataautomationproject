@@ -9,5 +9,5 @@ class Testdata(unittest.TestCase):
         self.ut = Utility()
 
     def test_data(self):
-        data = self.ut.get_api_data("city_name")
+        data = self.ut.get_api_data("zip_code")
         print(data)

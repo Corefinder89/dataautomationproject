@@ -24,11 +24,12 @@ class Utility:
     def set_query_params(self, param_type):
         json_obj = self.get_json_object()
         params = {
-            "country_code": json_obj.get("api_config").get("country_code"),
-            "city": json_obj.get("api_config").get("city"),
-            "latitude": json_obj.get("api_config").get("latitude"),
-            "longitude": json_obj.get("api_config").get("longitude"),
-            "city_id": json_obj.get("api_config").get("city_id")
+            "country_code": json_obj.get("location_parameters").get("country_code"),
+            "city": json_obj.get("location_parameters").get("city"),
+            "latitude": json_obj.get("location_parameters").get("latitude"),
+            "longitude": json_obj.get("location_parameters").get("longitude"),
+            "city_id": json_obj.get("location_parameters").get("city_id"),
+            "zip_code": json_obj.get("location_parameters").get("zip_code")
         }
 
         if param_type == "co-ordinates":
@@ -39,6 +40,9 @@ class Utility:
 
         if param_type == "city_id":
             return {"id": params.get("city_id")}
+
+        if param_type == "zip_code":
+            return {"zip": str(params.get("zip_code")) + "," + params.get("country_code")}
 
     def get_api_data(self, param_type):
         json_obj = self.get_json_object()
