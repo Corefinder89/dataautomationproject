@@ -6,15 +6,7 @@
     "endpoint": "https://api.openweathermap.org/data/2.5/weather"
   },
   "driver_config": {
-    "chromedriver_for_mac": "../drivers/chromedriver64_mac",
-    "chromedriver_for_linux": "../drivers/chromedriver64_linux"
-  },
-  "location_parameters": {
-    "country_code": "in",
-    "city": "bengaluru",
-    "city_id": 1277333,
-    "latitude": 12.972442,
-    "longitude": 77.580643,
-    "zip_code": 560068
+    "chromedriver_for_mac": "drivers/chromedriver64_mac",
+    "chromedriver_for_linux": "drivers/chromedriver64_linux"
   }
 }

@@ -1,5 +1,6 @@
 # ---------------------------------------input data--------------------------------------------
 class Testdata:
     data_set = [
-        ("zip_code", "bengaluru"), ("city_name", "bengaluru"), ("city_id", "bengaluru"), ("co-ordinates", "bengaluru")
+        ('{"lat":"35","lon":"139"}', "bengaluru"), ('{"q":"bengaluru,in"}', "bengaluru"),
+        ('{"id":"1277333"}', "bengaluru"), ('{"zip":"560068,in"}', "bengaluru")
     ]
