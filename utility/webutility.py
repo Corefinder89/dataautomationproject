@@ -8,6 +8,8 @@ from utility.apiutility import Apiutility
 
 
 class Webutility(Apiutility):
+
+    # Get the data from web
     def get_web_data(self):
         try:
             driver_path = super().set_driver_path()
@@ -24,6 +26,7 @@ class Webutility(Apiutility):
         except WebDriverException as e:
             super().log_error(e)
 
+    # Set the weather data from the json response
     def set_weather_data(self, city_name):
         json_data = self.get_web_data()
         if not city_name[0].isupper():
@@ -41,10 +44,12 @@ class Webutility(Apiutility):
 
             return web_data
 
+    # get the humidity value from the string
     def filter_humidity(self, humidity_val):
         split_val = humidity_val.split(":")
         return int(split_val[1].replace("%", ""))
 
+    # get the wind speed value from the string
     def filter_windspeed(self, wind_speed_val):
         split_val = wind_speed_val.split(":")
         filtered_val = re.findall(r"\d\.\d+", split_val[1])
