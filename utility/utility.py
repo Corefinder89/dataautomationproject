@@ -65,4 +65,17 @@ class Utility:
         if response.status_code != 200:
             self.log.log_error(response_json.get("message"))
         else:
-            return response_json
+            api_data = {
+                "condition": response_json.get("weather")[0].get("description"),
+                "wind_speed": response_json.get("wind").get("speed"),
+                "humidity": response_json.get("main").get("humidity"),
+                "temperature_celsius": self.convert_kelvin_celsius(response_json.get("main").get("temp")),
+                "temperature_fahrenheit": self.convert_kelvin_fahrenheit(response_json.get("main").get("temp"))
+            }
+            return api_data
+
+    def convert_kelvin_celsius(self, kelvin_temp):
+        return int(kelvin_temp - 273.15)
+
+    def convert_kelvin_fahrenheit(self, kelvin_temp):
+        return int((kelvin_temp - 273.15) * 1.8 + 32)
