@@ -6,21 +6,24 @@ import requests
 from utility.logger import Logger
 
 
-class Utility:
+class Apiutility:
     def __init__(self):
         self.log = Logger()
 
+    # Get the JSON data
     def get_json_object(self):
         with open("../config.json") as file:
             data = json.load(file)
             return data
 
+    # Get api key from the environment
     def get_apikey(self):
         try:
             return os.environ["apikey"]
         except KeyError:
             self.log.log_error("Environment variable not present")
 
+    # Set query parameters for API
     def set_query_params(self, param_type):
         json_obj = self.get_json_object()
         params = {
@@ -32,15 +35,19 @@ class Utility:
             "zip_code": json_obj.get("location_parameters").get("zip_code")
         }
 
+        # Set query parameter based on co-ordinates
         if param_type == "co-ordinates":
             return {"lat": params.get("latitude"), "lon": params.get("longitude")}
 
+        # Set query parameter based on city_name
         if param_type == "city_name":
             return {"q": params.get("city") + "," + params.get("country_code")}
 
+        # Set query parameter based on city_id
         if param_type == "city_id":
             return {"id": params.get("city_id")}
 
+        # Set query parameter based on zip_code
         if param_type == "zip_code":
             return {"zip": str(params.get("zip_code")) + "," + params.get("country_code")}
 
@@ -65,6 +72,7 @@ class Utility:
         if response.status_code != 200:
             self.log.log_error(response_json.get("message"))
         else:
+            # Set the API data in dictionary
             api_data = {
                 "condition": response_json.get("weather")[0].get("description"),
                 "wind_speed": response_json.get("wind").get("speed"),
@@ -72,10 +80,13 @@ class Utility:
                 "temperature_celsius": self.convert_kelvin_celsius(response_json.get("main").get("temp")),
                 "temperature_fahrenheit": self.convert_kelvin_fahrenheit(response_json.get("main").get("temp"))
             }
+
             return api_data
 
+    # Convert kelvin temperature to celsius
     def convert_kelvin_celsius(self, kelvin_temp):
         return int(kelvin_temp - 273.15)
 
+    # convert kelvin temperature to fahrenheit
     def convert_kelvin_fahrenheit(self, kelvin_temp):
         return int((kelvin_temp - 273.15) * 1.8 + 32)
