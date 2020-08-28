@@ -33,9 +33,10 @@ pip install -r requirements.txt
 ```bash
 export apikey='<apikey>'
 ```
+* Create a `report` directory inside the project directory to store all the execution reports.
 
 ## Execution
 * Run this command from the root directory
 ```bash
-pytest
+pytest --html=report/report.html
 ```
