@@ -71,3 +71,6 @@ Test data can be configured in the `test_data.py` file. The `Testdata` class con
     * `zip code`
     * `co-ordinates`
 * The `city name` for which the data needs to be fetched from the web
+
+pytest --alluredir = allure_report/
+allure serve allure_report/
