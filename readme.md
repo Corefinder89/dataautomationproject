@@ -1,14 +1,12 @@
-Table of contents
-=================
+# Table of contents
 
-<!--ts-->
    * [Pre-requisites](#Pre-requisites)
    * [Setup](#Setup)
    * [Installation](#Installing python modules)
    * [Execution](#Execution)
    * [Project parameters](#Configuring project parameters)
    * [Test data](#Configuring test data)
-<!--te-->
+
 
 # Pre-requisites
 * `Linux` or `mac` platform.
