@@ -8,5 +8,15 @@
   "driver_config": {
     "chromedriver_for_mac": "drivers/chromedriver64_mac",
     "chromedriver_for_linux": "drivers/chromedriver64_linux"
+  },
+  "variance": {
+    "celsius_ub": 5,
+    "celsius_lb": 0,
+    "fahrenheit_ub": 10,
+    "fahrenheit_lb": 0,
+    "windspeed_ub": 5,
+    "windspeed_lb": 0,
+    "humidity_ub": 5,
+    "humidity_lb": 0
   }
 }
