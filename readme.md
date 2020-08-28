@@ -61,6 +61,8 @@ Project parameters are configured in the `config.json` file. These parameters wo
 * Driver paths for specific browser drivers based on the platform.
 * Upper bound and the lower bound values that is required to find out the variance.
 * Logging configurations are done in `pytest.ini` file. Without this configuration logging will not be done in the report or in the console.
+* For maintaining coding standards the `pre-commit` configurations were used. The configurations are there in the `.pre-commit-config.yaml` file.
+* The python coding standards are maintained in the `.style.yapf` file
 
 # Configuring test data
 Test data can be configured in the `test_data.py` file. The `Testdata` class consists of the following
