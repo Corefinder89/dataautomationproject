@@ -18,7 +18,11 @@ class Testweatherdata(Webutility):
         }
 
         results = super().check_variance(diff)
-        assert results.get("temp_c"), "Celsius temperature variance is out of bound"
-        assert results.get("temp_f"), "Fahrenheit temperature variance is out of bound"
-        assert results.get("humidity"), "Humidity variance is out of bound"
-        assert results.get("windspeed"), "Windspeed variance is out of bound"
+        assert results.get("temp_c"), super().log_error("Celsius temperature variance is out of bound")
+        super().log_info("Temperature in celsius is within variance range")
+        assert results.get("temp_f"), super().log_error("Fahrenheit temperature variance is out of bound")
+        super().log_info("Temperature in fahrenheit is within variance range")
+        assert results.get("humidity"), super().log_error("Humidity variance is out of bound")
+        super().log_info("Humidity is within variance range")
+        assert results.get("windspeed"), super().log_error("Windspeed variance is out of bound")
+        super().log_info("Windspeed is within variance range")
