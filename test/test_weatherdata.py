@@ -11,7 +11,7 @@ class Testweatherdata(Webutility):
         api_data = super().get_api_data(query_param)
         web_data = super().set_weather_data(city_name)
 
-        # Use dictionaru to store differential data
+        # Use dictionary to store differential data
         diff = {
             "temp_c": abs(api_data.get("temperature_celsius") - web_data.get("temperature_celsius")),
             "temp_f": abs(api_data.get("temperature_fahrenheit") - web_data.get("temperature_fahrenheit")),
@@ -19,7 +19,10 @@ class Testweatherdata(Webutility):
             "windspeed": abs(round(api_data.get("wind_speed") - web_data.get("wind_speed"), 3))
         }
 
+        # Get the variance result data set
         results = super().check_variance(diff)
+
+        # Assertions for results
         assert results.get("temp_c"), super().log_error("Celsius temperature variance is out of bound")
         super().log_info("Temperature in celsius is within variance range")
         assert results.get("temp_f"), super().log_error("Fahrenheit temperature variance is out of bound")
