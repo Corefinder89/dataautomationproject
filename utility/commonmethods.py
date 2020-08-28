@@ -22,7 +22,7 @@ class Commonmethods:
     def convert_kelvin_fahrenheit(self, kelvin_temp):
         return int((kelvin_temp - 273.15) * 1.8 + 32)
 
-    # set driver path based on platform type
+    # set driver path based on platform type (LINUX or MAC)
     def set_driver_path(self):
         json_data = self.get_json_data()
         driver_path = ""

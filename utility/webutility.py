@@ -21,28 +21,31 @@ class Webutility(Apiutility):
             driver.implicitly_wait(5)
             data = driver.execute_script("return weatherJson")
             driver.quit()
-
+            super().log_info("Data fetched from web")
             return data
         except WebDriverException as e:
             super().log_error(e)
 
     # Set the weather data from the json response
     def set_weather_data(self, city_name):
-        json_data = self.get_web_data()
-        if not city_name[0].isupper():
-            city_name = city_name.capitalize()
-        else:
-            pass
-        if json_data.get("indian").get(city_name):
-            web_data = {
-                "condition": json_data.get("indian").get(city_name).get("condition"),
-                "humidity": self.filter_humidity(json_data.get("indian").get(city_name).get("humidity")),
-                "temperature_celsius": int(json_data.get("indian").get(city_name).get("temp_c")),
-                "temperature_fahrenheit": int(json_data.get("indian").get(city_name).get("temp_f")),
-                "wind_speed": self.filter_windspeed(json_data.get("indian").get(city_name).get("wind_condition"))
-            }
+        try:
+            json_data = self.get_web_data()
+            if not city_name[0].isupper():
+                city_name = city_name.capitalize()
+            else:
+                pass
+            if json_data.get("indian").get(city_name):
+                web_data = {
+                    "condition": json_data.get("indian").get(city_name).get("condition"),
+                    "humidity": self.filter_humidity(json_data.get("indian").get(city_name).get("humidity")),
+                    "temperature_celsius": int(json_data.get("indian").get(city_name).get("temp_c")),
+                    "temperature_fahrenheit": int(json_data.get("indian").get(city_name).get("temp_f")),
+                    "wind_speed": self.filter_windspeed(json_data.get("indian").get(city_name).get("wind_condition"))
+                }
 
-            return web_data
+                return web_data
+        except KeyError:
+            super().log_error("JSON key error")
 
     # get the humidity value from the string
     def filter_humidity(self, humidity_val):

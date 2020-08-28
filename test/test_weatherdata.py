@@ -10,6 +10,8 @@ class Testweatherdata(Webutility):
     def test_weather_condition_data(self, query_param, city_name):
         api_data = super().get_api_data(query_param)
         web_data = super().set_weather_data(city_name)
+
+        # Use dictionaru to store differential data
         diff = {
             "temp_c": abs(api_data.get("temperature_celsius") - web_data.get("temperature_celsius")),
             "temp_f": abs(api_data.get("temperature_fahrenheit") - web_data.get("temperature_fahrenheit")),
