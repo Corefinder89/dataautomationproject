@@ -6,7 +6,7 @@
 * Any one of the IDE (`vscode`, `pycharm`, `atom` or `sublime`) to visualize the code.
 
 ## Setup
-* `Homebrew` should be installed within your system. If homebrew is not installed use this documentation to install [Homebrew]("https://brew.sh/").
+* `Homebrew` should be installed within your system. If homebrew is not installed use this documentation to install [Homebrew](https://brew.sh/).
 * If python version is `2.7` then you can use this command to install python version above 2.7 using
 ```bash
 brew install python3
