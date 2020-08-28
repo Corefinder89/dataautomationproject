@@ -56,7 +56,8 @@ pytest --html=report/report.html
 ```
 
 # Configuring project parameters
-Project parameters are configured in the `config.json` file. These parameters would be basically utilised across the project. This basically consist of
+Project parameters are configured in the `config.json` file.
+These parameters would be basically utilised across the project. This basically consist of
 * API parameters which can be used to make a specific API request.
 * Driver paths for specific browser drivers based on the platform.
 * Upper bound and the lower bound values that is required to find out the variance.
