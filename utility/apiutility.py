@@ -41,7 +41,7 @@ class Apiutility(Logger, Commonmethods):
             # Get the response json
             response_json = response.json()
 
-            if response_json.get("cod") == 400:
+            if response_json.get("cod") >= 400:
                 super().log_error(response_json.get("message"))
             else:
                 # Set the API data in dictionary
