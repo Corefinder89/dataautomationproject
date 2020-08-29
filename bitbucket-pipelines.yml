@@ -16,7 +16,7 @@ pipelines:
           - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
           - sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
           - apt-get update
-          - apt-get install google-chrome-stable
+          - apt-get -y install google-chrome-stable
           - export apikey='7fe67bf08c80ded756e598d6f8fedaea'
           - pip install -r requirements.txt
           - pytest
