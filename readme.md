@@ -84,3 +84,9 @@ There will be a html file inside the directory. Open the report to get the detai
 pytest --alluredir = <report directory>
 allure serve <report directory>
 ```
+
+# Pipeline
+To configure pipeline for bitbucket have used the `bitbucket-pipelines.yml` configuration file. it consists of
+* The platform configurations.
+* Project configurations.
+* Test execution.
