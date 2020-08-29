@@ -19,5 +19,5 @@ pipelines:
           - apt-get -y install google-chrome-stable
           - export apikey='7fe67bf08c80ded756e598d6f8fedaea'
           - pip install -r requirements.txt
-          - mkdir report
-          - pytest --html=report/report.html
+          - mkdir test-results
+          - pytest --html=test-results/test-results.html
