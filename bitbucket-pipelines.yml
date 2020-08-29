@@ -11,6 +11,8 @@ pipelines:
         caches:
           - pip
         script: # Modify the commands below to build your repository.
+          - apt-get update && apt-get -f install
+          - apt-get install google-chrome-stable
           - export apikey='7fe67bf08c80ded756e598d6f8fedaea'
           - pip install -r requirements.txt
           - pytest
