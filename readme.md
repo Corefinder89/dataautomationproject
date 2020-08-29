@@ -87,6 +87,6 @@ allure serve <report directory>
 
 # Pipeline
 To configure pipeline for bitbucket have used the `bitbucket-pipelines.yml` configuration file. it consists of
-* The platform configurations.
-* Project configurations.
-* Test execution.
+   * The platform configurations.
+   * Project configurations.
+   * Test execution.
