@@ -50,9 +50,9 @@ pip install -r requirements.txt
 ```
 
 # Execution
-* Run this command from the root directory
+* Run this command from the root directory to execute the test suite
 ```bash
-pytest --html=report/report.html
+pytest
 ```
 
 # Configuring project parameters
@@ -72,5 +72,15 @@ Test data can be configured in the `test_data.py` file. The `Testdata` class con
     * `co-ordinates`
 * The `city name` for which the data needs to be fetched from the web
 
-pytest --alluredir = allure_report/
-allure serve allure_report/
+# Reporting
+The test suite is configured to support both the report libraries
+* For getting reports in pytest-html run the command
+```bash
+pytest --html=report/<report directory>
+```
+There will be a html file inside the directory. Open the report to get the detailed test execution details.
+* For getting reports in allure run the command
+```bash
+pytest --alluredir = <report directory>
+allure serve <report directory>
+```
