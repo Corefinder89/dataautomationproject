@@ -15,6 +15,7 @@ class Webutility(Apiutility):
             driver_path = super().set_driver_path()
             chrome_options = Options()
             chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--no-sandbox")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
 
             driver.get("https://social.ndtv.com/static/Weather/report/")
