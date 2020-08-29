@@ -90,3 +90,4 @@ To configure pipeline for bitbucket have used the `bitbucket-pipelines.yml` conf
    * The platform configurations.
    * Project configurations.
    * Test execution.
+ The CI will trigger when pushing the code to the `develop` branch and also while merging code to the `master` branch.
