@@ -34,7 +34,10 @@ class Webutility(Apiutility):
         driver_object.implicitly_wait(4)
         sub_menu = self.find_element(driver_object, "id", "h_sub_menu")
         sub_menu.click()
-        weather_element = self.find_element(driver_object, "link_text", "WEATHER")
+        weather_element = self.find_element(
+            driver_object, "link_text",
+            super().get_json_data().get("locators").get("weather_link_text")
+        )
         weather_element.click()
         data = self.get_location_data(driver_object, city_name)
         driver_object.quit()
@@ -44,11 +47,11 @@ class Webutility(Apiutility):
         element = self.find_element(
             driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
         )
-        condition = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[1]/b"
-        wind_speed = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[2]/b"
-        humidity = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[3]/b"
-        temp_deg = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[4]/b"
-        temp_fah = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b"
+        condition = super().get_json_data().get("locators").get("condition")
+        wind_speed = super().get_json_data().get("locators").get("wind_speed")
+        humidity = super().get_json_data().get("locators").get("humidity")
+        temp_deg = super().get_json_data().get("locators").get("temp_deg")
+        temp_fah = super().get_json_data().get("locators").get("temp_fah")
 
         try:
             if element:
