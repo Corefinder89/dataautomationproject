@@ -9,7 +9,7 @@ class Testweatherdata(Webutility):
     @pytest.mark.parametrize("query_param, city_name", Testdata.data_set)
     def test_weather_condition_data(self, query_param, city_name):
         api_data = super().get_api_data(query_param)
-        web_data = super().set_weather_data(city_name)
+        web_data = super().get_weatherdata_from_web(city_name)
 
         # Use dictionary to store differential data
         diff = {
@@ -31,3 +31,7 @@ class Testweatherdata(Webutility):
         super().log_info("Humidity is within variance range")
         assert results.get("windspeed"), "Windspeed variance is out of bound"
         super().log_info("Windspeed is within variance range")
+
+    @pytest.mark.testrun
+    def test_run(self):
+        super().get_weatherdata_from_web("Kolkata")

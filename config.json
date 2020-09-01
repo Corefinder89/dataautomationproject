@@ -9,6 +9,9 @@
     "chromedriver_for_mac": "drivers/chromedriver64_mac",
     "chromedriver_for_linux": "drivers/chromedriver64_linux"
   },
+  "web_url":{
+    "site": "https://www.ndtv.com/"
+  },
   "variance": {
     "celsius_ub": 5,
     "celsius_lb": 0,

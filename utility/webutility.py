@@ -1,60 +1,73 @@
-import re
+from time import sleep
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 from utility.apiutility import Apiutility
 
 
 class Webutility(Apiutility):
 
-    # Get the data from web
-    def get_web_data(self):
+    # return driver object
+    def set_driver(self):
         try:
             driver_path = super().set_driver_path()
             chrome_options = Options()
-            chrome_options.add_argument("--headless")
+            # chrome_options.add_argument("--headless")
             chrome_options.add_argument("--no-sandbox")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
-
-            driver.get("https://social.ndtv.com/static/Weather/report/")
-            driver.implicitly_wait(5)
-            data = driver.execute_script("return weatherJson")
-            driver.quit()
-            super().log_info("Data fetched from web")
-            return data
+            return driver
         except WebDriverException as e:
             super().log_error(e)
 
-    # Set the weather data from the json response
-    def set_weather_data(self, city_name):
+    # Get the data from web
+    def get_weatherdata_from_web(self, city_name):
+        driver_object = self.set_driver()
+        driver_object.get(super().get_json_data().get("web_url").get("site"))
+        driver_object.implicitly_wait(4)
+        sub_menu = self.find_element(driver_object, "id", "h_sub_menu")
+        sub_menu.click()
+        weather_element = self.find_element(driver_object, "link_text", "WEATHER")
+        weather_element.click()
+        self.get_location_data(driver_object, city_name)
+        sleep(2)
+        driver_object.quit()
+
+    def get_location_data(self, driver, city_name):
+        element = self.find_element(driver, "xpath", f"//div[@title='{city_name}']")
+        data_locator = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span/b"
+        # element_text = self.find_element(driver, "xpath", f"//div[text()='{city_name}']")
         try:
-            json_data = self.get_web_data()
-            if not city_name[0].isupper():
-                city_name = city_name.capitalize()
-            else:
-                pass
-            if json_data.get("indian").get(city_name):
-                web_data = {
-                    "condition": json_data.get("indian").get(city_name).get("condition"),
-                    "humidity": self.filter_humidity(json_data.get("indian").get(city_name).get("humidity")),
-                    "temperature_celsius": int(json_data.get("indian").get(city_name).get("temp_c")),
-                    "temperature_fahrenheit": int(json_data.get("indian").get(city_name).get("temp_f")),
-                    "wind_speed": self.filter_windspeed(json_data.get("indian").get(city_name).get("wind_condition"))
-                }
+            if element:
+                super().log_info("Element is present in the map")
+                element.click()
+                elements = driver.find_elements(By.XPATH, data_locator)
+                for i in elements:
+                    print(i.text)
+            # else:
+            #     super().log_info("Selecting location from pin")
+            #     search_box = self.find_element(driver, "id", "searchBox")
+            #     search_box.send_keys(city_name)
+            #     location_chxbox = self.find_element(driver, "id", city_name)
+            #     location_chxbox.click()
+            #     sleep(2)
+            #     if element:
+            #         super().log_info(city_name+" is present on the map")
+        except NoSuchElementException:
+            super().log_error("Locator was not found")
 
-                return web_data
-        except KeyError:
-            super().log_error("JSON key error")
-
-    # get the humidity value from the string
-    def filter_humidity(self, humidity_val):
-        split_val = humidity_val.split(":")
-        return int(split_val[1].replace("%", ""))
-
-    # get the wind speed value from the string
-    def filter_windspeed(self, wind_speed_val):
-        split_val = wind_speed_val.split(":")
-        filtered_val = re.findall(r"\d\.\d+", split_val[1])
-        return float(filtered_val[0])
+    def find_element(self, driver, locator_type, locator):
+        try:
+            if locator_type == "id":
+                return driver.find_element(By.ID, locator)
+            if locator_type == "xpath":
+                return driver.find_element(By.XPATH, locator)
+            if locator_type == "css_selector":
+                return driver.find_element(By.CSS_SELECTOR, locator)
+            if locator_type == "link_text":
+                return driver.find_element(By.LINK_TEXT, locator)
+        except NoSuchElementException:
+            super().log_error("Locator " + locator + " was not found")
