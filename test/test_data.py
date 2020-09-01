@@ -5,3 +5,5 @@ class Testdata:
         ('{"id":"1277333"}', "bengaluru"), ('{"zip":"560068,in"}', "bengaluru"), ('{"q":"kolkata,in"}', "kolkata"),
         ('{"zip":"700048,in"}', "kolkata"), ('{"lat":"18.52","lon":"73.86"}', "pune")
     ]
+
+    # data_set = [('{"q":"kolkata,in"}', "kolkata"), ('{"q":"indore,in"}', "indore")]

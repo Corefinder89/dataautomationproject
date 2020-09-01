@@ -32,8 +32,3 @@ class Testweatherdata(Webutility):
         super().log_info("Humidity is within variance range")
         assert results.get("windspeed"), "Windspeed variance is out of bound"
         super().log_info("Windspeed is within variance range")
-
-    @pytest.mark.testrun
-    def test_run(self):
-        data = super().get_weatherdata_from_web("kolkata")
-        print(data)

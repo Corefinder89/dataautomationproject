@@ -16,7 +16,7 @@ class Webutility(Apiutility):
         try:
             driver_path = super().set_driver_path()
             chrome_options = Options()
-            # chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--headless")
             chrome_options.add_argument("--no-sandbox")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
             return driver
@@ -30,28 +30,25 @@ class Webutility(Apiutility):
         else:
             pass
         driver_object = self.set_driver()
+        driver_object.maximize_window()
         driver_object.get(super().get_json_data().get("web_url").get("site"))
         driver_object.implicitly_wait(4)
-        sub_menu = self.find_element(driver_object, "id", super().get_json_data().get("locators").get("sub_menu"))
-        sub_menu.click()
+        self.execute_javascript(driver_object, super().get_json_data().get("locators").get("sub_menu"))
+        super().log_info("Click on the sub menu")
         weather_element = self.find_element(
-            driver_object, "link_text",
-            super().get_json_data().get("locators").get("weather_link_text")
+            driver_object, "xpath",
+            super().get_json_data().get("locators").get("weather_link")
         )
+        sleep(1)
         weather_element.click()
+        super().log_info("Click on th weather tab")
         data = self.get_location_data(driver_object, city_name)
+        super().log_info("Data fetched from web")
         driver_object.quit()
         return data
 
     def get_location_data(self, driver, city_name):
         map_element = self.find_element(driver, "xpath", f"//*[text()='{city_name}']")
-
-        condition = super().get_json_data().get("locators").get("condition")
-        wind_speed = super().get_json_data().get("locators").get("wind_speed")
-        humidity = super().get_json_data().get("locators").get("humidity")
-        temp_deg = super().get_json_data().get("locators").get("temp_deg")
-        temp_fah = super().get_json_data().get("locators").get("temp_fah")
-
         try:
             if map_element:
                 element = self.find_element(
@@ -60,16 +57,7 @@ class Webutility(Apiutility):
                 super().log_info("Element is present in the map")
                 element.click()
                 sleep(1)
-                web_data = {
-                    "condition": self.find_element(driver, "xpath", condition).text,
-                    "humidity": super().filter_humidity(self.find_element(driver, "xpath", humidity).text),
-                    "temperature_celsius":
-                    super().filter_temperature(self.find_element(driver, "xpath", temp_deg).text),
-                    "temperature_fahrenheit":
-                    super().filter_temperature(self.find_element(driver, "xpath", temp_fah).text),
-                    "wind_speed": super().filter_windspeed(self.find_element(driver, "xpath", wind_speed).text)
-                }
-                return web_data
+                location_data = self.web_data(driver)
             else:
                 super().log_info("Selecting location from pin")
                 search_box = self.find_element(driver, "id", "searchBox")
@@ -84,16 +72,8 @@ class Webutility(Apiutility):
                 )
                 element.click()
                 sleep(1)
-                web_data = {
-                    "condition": self.find_element(driver, "xpath", condition).text,
-                    "humidity": super().filter_humidity(self.find_element(driver, "xpath", humidity).text),
-                    "temperature_celsius":
-                    super().filter_temperature(self.find_element(driver, "xpath", temp_deg).text),
-                    "temperature_fahrenheit":
-                    super().filter_temperature(self.find_element(driver, "xpath", temp_fah).text),
-                    "wind_speed": super().filter_windspeed(self.find_element(driver, "xpath", wind_speed).text)
-                }
-                return web_data
+                location_data = self.web_data(driver)
+            return location_data
         except NoSuchElementException:
             super().log_error("Locator was not found")
 
@@ -110,3 +90,22 @@ class Webutility(Apiutility):
         except NoSuchElementException:
             super().log_error("Locator " + locator + " was not found")
             return False
+
+    def execute_javascript(self, driver, j_script):
+        driver.execute_script(j_script)
+
+    def web_data(self, driver):
+        condition = super().get_json_data().get("locators").get("condition")
+        wind_speed = super().get_json_data().get("locators").get("wind_speed")
+        humidity = super().get_json_data().get("locators").get("humidity")
+        temp_deg = super().get_json_data().get("locators").get("temp_deg")
+        temp_fah = super().get_json_data().get("locators").get("temp_fah")
+
+        web_data = {
+            "condition": self.find_element(driver, "xpath", condition).text,
+            "humidity": super().filter_humidity(self.find_element(driver, "xpath", humidity).text),
+            "temperature_celsius": super().filter_temperature(self.find_element(driver, "xpath", temp_deg).text),
+            "temperature_fahrenheit": super().filter_temperature(self.find_element(driver, "xpath", temp_fah).text),
+            "wind_speed": super().filter_windspeed(self.find_element(driver, "xpath", wind_speed).text)
+        }
+        return web_data
