@@ -35,5 +35,5 @@ class Testweatherdata(Webutility):
 
     @pytest.mark.testrun
     def test_run(self):
-        data = super().get_weatherdata_from_web("Kolkata")
+        data = super().get_weatherdata_from_web("kolkata")
         print(data)

@@ -23,11 +23,14 @@
     "humidity_lb": 0
   },
   "locators": {
+    "sub_menu": "h_sub_menu",
     "weather_link_text": "WEATHER",
     "condition": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[1]/b",
     "wind_speed": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[2]/b",
     "humidity": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[3]/b",
     "temp_deg": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[4]/b",
-    "temp_fah": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b"
+    "temp_fah": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b",
+    "last_element_map": "//div[@class='leaflet-pane leaflet-marker-pane']/div[last()]",
+    "last_element_text": "(//div[@class='leaflet-pane leaflet-marker-pane'])/div[last()]/div/div[2]"
   }
 }
