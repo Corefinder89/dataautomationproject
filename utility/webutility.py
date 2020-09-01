@@ -25,6 +25,10 @@ class Webutility(Apiutility):
 
     # Get the data from web
     def get_weatherdata_from_web(self, city_name):
+        if not city_name[0].isupper():
+            city_name = city_name.capitalize()
+        else:
+            pass
         driver_object = self.set_driver()
         driver_object.get(super().get_json_data().get("web_url").get("site"))
         driver_object.implicitly_wait(4)

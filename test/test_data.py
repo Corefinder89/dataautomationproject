@@ -6,4 +6,4 @@ class Testdata:
     #     ('{"zip":"700048,in"}', "kolkata"), ('{"lat":"18.52","lon":"73.86"}', "pune")
     # ]
 
-    data_set = [('{"q":"kolkata,in"}', "Kolkata")]
+    data_set = [('{"q":"kolkata,in"}', "kolkata")]
