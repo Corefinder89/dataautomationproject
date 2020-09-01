@@ -32,30 +32,40 @@ class Webutility(Apiutility):
         sub_menu.click()
         weather_element = self.find_element(driver_object, "link_text", "WEATHER")
         weather_element.click()
-        self.get_location_data(driver_object, city_name)
-        sleep(2)
+        data = self.get_location_data(driver_object, city_name)
         driver_object.quit()
+        return data
 
     def get_location_data(self, driver, city_name):
-        element = self.find_element(driver, "xpath", f"//div[@title='{city_name}']")
-        data_locator = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span/b"
-        # element_text = self.find_element(driver, "xpath", f"//div[text()='{city_name}']")
+        element = self.find_element(
+            driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
+        )
+        condition = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[1]/b"
+        wind_speed = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[2]/b"
+        humidity = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[3]/b"
+        temp_deg = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[4]/b"
+        temp_fah = "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b"
+
         try:
             if element:
                 super().log_info("Element is present in the map")
                 element.click()
-                elements = driver.find_elements(By.XPATH, data_locator)
-                for i in elements:
-                    print(i.text)
-            # else:
-            #     super().log_info("Selecting location from pin")
-            #     search_box = self.find_element(driver, "id", "searchBox")
-            #     search_box.send_keys(city_name)
-            #     location_chxbox = self.find_element(driver, "id", city_name)
-            #     location_chxbox.click()
-            #     sleep(2)
-            #     if element:
-            #         super().log_info(city_name+" is present on the map")
+                web_data = {
+                    "condition": self.find_element(driver, "xpath", condition).text,
+                    "humidity": super().filter_humidity(self.find_element(driver, "xpath", humidity).text),
+                    "temperature_celsius":
+                    super().filter_temperature(self.find_element(driver, "xpath", temp_deg).text),
+                    "temperature_fahrenheit":
+                    super().filter_temperature(self.find_element(driver, "xpath", temp_fah).text),
+                    "wind_speed": super().filter_windspeed(self.find_element(driver, "xpath", wind_speed).text)
+                }
+                return web_data
+            else:
+                super().log_info("Selecting location from pin")
+                search_box = self.find_element(driver, "id", "searchBox")
+                search_box.send_keys(city_name)
+                location_chxbox = self.find_element(driver, "id", city_name)
+                location_chxbox.click()
         except NoSuchElementException:
             super().log_error("Locator was not found")
 

@@ -7,6 +7,7 @@ from utility.webutility import Webutility
 
 class Testweatherdata(Webutility):
     @pytest.mark.parametrize("query_param, city_name", Testdata.data_set)
+    @pytest.mark.actualtest
     def test_weather_condition_data(self, query_param, city_name):
         api_data = super().get_api_data(query_param)
         web_data = super().get_weatherdata_from_web(city_name)
@@ -34,4 +35,5 @@ class Testweatherdata(Webutility):
 
     @pytest.mark.testrun
     def test_run(self):
-        super().get_weatherdata_from_web("Kolkata")
+        data = super().get_weatherdata_from_web("Kolkata")
+        print(data)

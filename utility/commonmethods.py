@@ -62,3 +62,8 @@ class Commonmethods:
         split_val = wind_speed_val.split(":")
         filtered_val = re.findall(r"\d\.\d+", split_val[1])
         return float(filtered_val[0])
+
+    # get the temperature value from string
+    def filter_temperature(self, temperature_val):
+        temp = temperature_val.split(":")
+        return int(temp[1])
