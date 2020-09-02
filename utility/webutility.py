@@ -34,14 +34,14 @@ class Webutility(Apiutility):
         driver_object.get(super().get_json_data().get("web_url").get("site"))
         driver_object.implicitly_wait(4)
         self.execute_javascript(driver_object, super().get_json_data().get("locators").get("sub_menu"))
-        super().log_info("Click on the sub menu")
+        super().log_info("Clicked on the sub menu")
         weather_element = self.find_element(
             driver_object, "xpath",
             super().get_json_data().get("locators").get("weather_link")
         )
         sleep(1)
         weather_element.click()
-        super().log_info("Click on th weather tab")
+        super().log_info("Clicked on th weather tab")
         data = self.get_location_data(driver_object, city_name)
         super().log_info("Data fetched from web")
         driver_object.quit()
@@ -54,6 +54,7 @@ class Webutility(Apiutility):
                 super().log_info("Element is present in the map")
                 self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
                 sleep(1)
+                super().log_info("Clicked on the web element")
                 location_data = self.web_data(driver)
             else:
                 super().log_info("Selecting location from pin")
@@ -66,6 +67,7 @@ class Webutility(Apiutility):
                 sleep(1)
                 self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
                 sleep(1)
+                super().log_info("Clicked on the web element")
                 location_data = self.web_data(driver)
             return location_data
         except NoSuchElementException:
