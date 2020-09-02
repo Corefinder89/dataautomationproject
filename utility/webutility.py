@@ -48,11 +48,17 @@ class Webutility(Apiutility):
         return data
 
     def get_location_data(self, driver, city_name):
-        map_element = self.find_element(driver, "xpath", f"//*[text()='{city_name}']")
+        map_element = self.find_element(
+            driver, "xpath",
+            super().get_json_data().get("locators").get("search_city").format(city_name)
+        )
         try:
             if map_element:
                 super().log_info("Element is present in the map")
-                self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
+                self.execute_javascript(
+                    driver,
+                    super().get_json_data().get("locators").get("script_click_element").format(city_name)
+                )
                 sleep(1)
                 super().log_info("Clicked on the web element")
                 location_data = self.web_data(driver)
@@ -65,7 +71,10 @@ class Webutility(Apiutility):
                 location_chxbox = self.find_element(driver, "id", city_name)
                 location_chxbox.click()
                 sleep(1)
-                self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
+                self.execute_javascript(
+                    driver,
+                    super().get_json_data().get("locators").get("script_click_element").format(city_name)
+                )
                 sleep(1)
                 super().log_info("Clicked on the web element")
                 location_data = self.web_data(driver)
