@@ -13,13 +13,13 @@
     "site": "https://www.ndtv.com/"
   },
   "variance": {
-    "celsius_ub": 5,
+    "celsius_ub": 20,
     "celsius_lb": 0,
-    "fahrenheit_ub": 10,
+    "fahrenheit_ub": 20,
     "fahrenheit_lb": 0,
-    "windspeed_ub": 10,
+    "windspeed_ub": 20,
     "windspeed_lb": 0,
-    "humidity_ub": 10,
+    "humidity_ub": 20,
     "humidity_lb": 0
   },
   "locators": {

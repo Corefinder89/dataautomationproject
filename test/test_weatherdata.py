@@ -28,7 +28,7 @@ class Testweatherdata(Webutility):
         super().log_info("Temperature in celsius is within variance range")
         assert results.get("temp_f"), "Fahrenheit temperature variance is out of bound"
         super().log_info("Temperature in fahrenheit is within variance range")
-        assert results.get("humidity"), "Humidity variance is out of bound"
-        super().log_info("Humidity is within variance range")
         assert results.get("windspeed"), "Windspeed variance is out of bound"
         super().log_info("Windspeed is within variance range")
+        assert results.get("humidity"), "Humidity variance is out of bound"
+        super().log_info("Humidity is within variance range")
