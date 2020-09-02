@@ -29,6 +29,8 @@
     "wind_speed": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[2]/b",
     "humidity": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[3]/b",
     "temp_deg": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[4]/b",
-    "temp_fah": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b"
+    "temp_fah": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b",
+    "search_city": "//*[text()='{0}']",
+    "script_click_element": "$(\"div[title|='{0}']\").click()"
   }
 }
