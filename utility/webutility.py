@@ -1,6 +1,7 @@
 from time import sleep
 
 from selenium import webdriver
+from selenium.common.exceptions import ElementNotInteractableException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -79,8 +80,8 @@ class Webutility(Apiutility):
                 super().log_info("Clicked on the web element")
                 location_data = self.web_data(driver)
             return location_data
-        except NoSuchElementException:
-            super().log_error("Locator was not found")
+        except ElementNotInteractableException:
+            super().log_error("Element is not interactable")
 
     def find_element(self, driver, locator_type, locator):
         try:
