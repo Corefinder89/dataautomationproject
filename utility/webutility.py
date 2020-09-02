@@ -1,60 +1,111 @@
-import re
+from time import sleep
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 from utility.apiutility import Apiutility
 
 
 class Webutility(Apiutility):
 
-    # Get the data from web
-    def get_web_data(self):
+    # return driver object
+    def set_driver(self):
         try:
             driver_path = super().set_driver_path()
             chrome_options = Options()
-            chrome_options.add_argument("--headless")
+            # chrome_options.add_argument("--headless")
             chrome_options.add_argument("--no-sandbox")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
-
-            driver.get("https://social.ndtv.com/static/Weather/report/")
-            driver.implicitly_wait(5)
-            data = driver.execute_script("return weatherJson")
-            driver.quit()
-            super().log_info("Data fetched from web")
-            return data
+            return driver
         except WebDriverException as e:
             super().log_error(e)
 
-    # Set the weather data from the json response
-    def set_weather_data(self, city_name):
+    # Get the data from web
+    def get_weatherdata_from_web(self, city_name):
+        if not city_name[0].isupper():
+            city_name = city_name.capitalize()
+        else:
+            pass
+        driver_object = self.set_driver()
+        driver_object.maximize_window()
+        driver_object.get(super().get_json_data().get("web_url").get("site"))
+        driver_object.implicitly_wait(4)
+        self.execute_javascript(driver_object, super().get_json_data().get("locators").get("sub_menu"))
+        super().log_info("Click on the sub menu")
+        weather_element = self.find_element(
+            driver_object, "xpath",
+            super().get_json_data().get("locators").get("weather_link")
+        )
+        sleep(1)
+        weather_element.click()
+        super().log_info("Click on th weather tab")
+        data = self.get_location_data(driver_object, city_name)
+        super().log_info("Data fetched from web")
+        driver_object.quit()
+        return data
+
+    def get_location_data(self, driver, city_name):
+        map_element = self.find_element(driver, "xpath", f"//*[text()='{city_name}']")
         try:
-            json_data = self.get_web_data()
-            if not city_name[0].isupper():
-                city_name = city_name.capitalize()
+            if map_element:
+                super().log_info("Element is present in the map")
+                element = self.find_element(
+                    driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
+                )
+                element.click()
+                sleep(1)
+                location_data = self.web_data(driver)
             else:
-                pass
-            if json_data.get("indian").get(city_name):
-                web_data = {
-                    "condition": json_data.get("indian").get(city_name).get("condition"),
-                    "humidity": self.filter_humidity(json_data.get("indian").get(city_name).get("humidity")),
-                    "temperature_celsius": int(json_data.get("indian").get(city_name).get("temp_c")),
-                    "temperature_fahrenheit": int(json_data.get("indian").get(city_name).get("temp_f")),
-                    "wind_speed": self.filter_windspeed(json_data.get("indian").get(city_name).get("wind_condition"))
-                }
+                super().log_info("Selecting location from pin")
+                search_box = self.find_element(driver, "id", "searchBox")
+                sleep(1)
+                search_box.send_keys(city_name)
+                sleep(1)
+                location_chxbox = self.find_element(driver, "id", city_name)
+                location_chxbox.click()
+                sleep(1)
+                element = self.find_element(
+                    driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
+                )
+                element.click()
+                sleep(1)
+                location_data = self.web_data(driver)
+            return location_data
+        except NoSuchElementException:
+            super().log_error("Locator was not found")
 
-                return web_data
-        except KeyError:
-            super().log_error("JSON key error")
+    def find_element(self, driver, locator_type, locator):
+        try:
+            if locator_type == "id":
+                return driver.find_element(By.ID, locator)
+            if locator_type == "xpath":
+                return driver.find_element(By.XPATH, locator)
+            if locator_type == "css_selector":
+                return driver.find_element(By.CSS_SELECTOR, locator)
+            if locator_type == "link_text":
+                return driver.find_element(By.LINK_TEXT, locator)
+        except NoSuchElementException:
+            super().log_error("Locator " + locator + " was not found")
+            return False
 
-    # get the humidity value from the string
-    def filter_humidity(self, humidity_val):
-        split_val = humidity_val.split(":")
-        return int(split_val[1].replace("%", ""))
+    def execute_javascript(self, driver, j_script):
+        driver.execute_script(j_script)
 
-    # get the wind speed value from the string
-    def filter_windspeed(self, wind_speed_val):
-        split_val = wind_speed_val.split(":")
-        filtered_val = re.findall(r"\d\.\d+", split_val[1])
-        return float(filtered_val[0])
+    def web_data(self, driver):
+        condition = super().get_json_data().get("locators").get("condition")
+        wind_speed = super().get_json_data().get("locators").get("wind_speed")
+        humidity = super().get_json_data().get("locators").get("humidity")
+        temp_deg = super().get_json_data().get("locators").get("temp_deg")
+        temp_fah = super().get_json_data().get("locators").get("temp_fah")
+
+        web_data = {
+            "condition": self.find_element(driver, "xpath", condition).text,
+            "humidity": super().filter_humidity(self.find_element(driver, "xpath", humidity).text),
+            "temperature_celsius": super().filter_temperature(self.find_element(driver, "xpath", temp_deg).text),
+            "temperature_fahrenheit": super().filter_temperature(self.find_element(driver, "xpath", temp_fah).text),
+            "wind_speed": super().filter_windspeed(self.find_element(driver, "xpath", wind_speed).text)
+        }
+        return web_data
