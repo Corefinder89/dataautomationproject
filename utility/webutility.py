@@ -16,7 +16,7 @@ class Webutility(Apiutility):
         try:
             driver_path = super().set_driver_path()
             chrome_options = Options()
-            # chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--headless")
             chrome_options.add_argument("--no-sandbox")
             driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
             return driver
@@ -52,10 +52,7 @@ class Webutility(Apiutility):
         try:
             if map_element:
                 super().log_info("Element is present in the map")
-                element = self.find_element(
-                    driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
-                )
-                element.click()
+                self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
                 sleep(1)
                 location_data = self.web_data(driver)
             else:
@@ -67,10 +64,7 @@ class Webutility(Apiutility):
                 location_chxbox = self.find_element(driver, "id", city_name)
                 location_chxbox.click()
                 sleep(1)
-                element = self.find_element(
-                    driver, "xpath", f"//div[@class='leaflet-pane leaflet-marker-pane']/div/div[@title='{city_name}']"
-                )
-                element.click()
+                self.execute_javascript(driver, f"$(\"div[title|='{city_name}']\").click()")
                 sleep(1)
                 location_data = self.web_data(driver)
             return location_data
