@@ -31,6 +31,7 @@
     "temp_deg": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[4]/b",
     "temp_fah": "//div[@class='leaflet-pane leaflet-popup-pane']/div/div/div/div/span[5]/b",
     "search_city": "//*[text()='{0}']",
+    "search_box": "searchBox",
     "script_click_element": "$(\"div[title|='{0}']\").click()"
   }
 }

@@ -65,7 +65,7 @@ class Webutility(Apiutility):
                 location_data = self.web_data(driver)
             else:
                 super().log_info("Selecting location from pin")
-                search_box = self.find_element(driver, "id", "searchBox")
+                search_box = self.find_element(driver, "id", super().get_json_data().get("locators").get("search_box"))
                 sleep(1)
                 search_box.send_keys(city_name)
                 sleep(1)
