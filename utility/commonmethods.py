@@ -6,8 +6,7 @@ import sys
 class Commonmethods:
 
     # Get the JSON data
-    @staticmethod
-    def get_json_data():
+    def get_json_data(self):
         with open("config.json") as file:
             data = json.load(file)
             return data
@@ -15,15 +14,13 @@ class Commonmethods:
     # Convert kelvin temperature to Celsius
     # Type casting the temperature data to integer because
     # the web data is in integers
-    @staticmethod
-    def convert_kelvin_celsius(kelvin_temp):
+    def convert_kelvin_celsius(self, kelvin_temp):
         return int(kelvin_temp - 273.15)
 
     # Convert kelvin temperature to Fahrenheit
     # Type casting the temperature data to integer because
     # the web data is in integers
-    @staticmethod
-    def convert_kelvin_fahrenheit(kelvin_temp):
+    def convert_kelvin_fahrenheit(self, kelvin_temp):
         return int((kelvin_temp - 273.15) * 1.8 + 32)
 
     # set driver path based on platform type (LINUX or MAC)
@@ -58,20 +55,17 @@ class Commonmethods:
         return variance_output
 
     # get the humidity value from the string
-    @staticmethod
-    def filter_humidity(humidity_val):
+    def filter_humidity(self, humidity_val):
         split_val = humidity_val.split(":")
         return int(split_val[1].replace("%", ""))
 
     # get the wind speed value from the string
-    @staticmethod
-    def filter_windspeed(wind_speed_val):
+    def filter_windspeed(self, wind_speed_val):
         split_val = wind_speed_val.split(":")
         filtered_val = re.findall(r"\d\.\d+", split_val[1])
         return float(filtered_val[0])
 
     # get the temperature value from string
-    @staticmethod
-    def filter_temperature(temperature_val):
+    def filter_temperature(self, temperature_val):
         temp = temperature_val.split(":")
         return int(temp[1])

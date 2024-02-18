@@ -5,6 +5,7 @@ from selenium.common.exceptions import ElementNotInteractableException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 
 from utility.apiutility import Apiutility
@@ -16,10 +17,14 @@ class Webutility(Apiutility):
     def set_driver(self):
         try:
             driver_path = super().set_driver_path()
+
+            chrome_service = ChromeService(driver_path)
             chrome_options = Options()
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--no-sandbox")
-            driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options)
+
+            driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
+
             return driver
         except WebDriverException as e:
             super().log_error(e)
@@ -97,7 +102,8 @@ class Webutility(Apiutility):
             super().log_error("Locator " + locator + " was not found")
             return False
 
-    def execute_javascript(self, driver, j_script):
+    @staticmethod
+    def execute_javascript(driver, j_script):
         driver.execute_script(j_script)
 
     def web_data(self, driver):
