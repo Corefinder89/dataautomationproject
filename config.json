@@ -7,7 +7,8 @@
   },
   "driver_config": {
     "chromedriver_for_mac": "drivers/chromedriver64_mac",
-    "chromedriver_for_linux": "drivers/chromedriver64_linux"
+    "chromedriver_for_linux": "drivers/chromedriver64_linux",
+    "chromedriver_for_win": "drivers/chromedriver64_win"
   },
   "web_url":{
     "site": "https://www.ndtv.com/"
