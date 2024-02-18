@@ -17,7 +17,7 @@ class Webutility(Apiutility):
     def set_driver(self):
         try:
             driver_path = super().set_driver_path()
-
+            super().log_info(driver_path)
             chrome_service = ChromeService(driver_path)
             chrome_options = Options()
             chrome_options.add_argument("--headless")
